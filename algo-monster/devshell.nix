@@ -19,6 +19,8 @@ perSystem.devshell.mkShell (
 
     devshell.packages = with pkgs; [ 
       python3
+      ty
+      ruff
     ];
   }
 )
