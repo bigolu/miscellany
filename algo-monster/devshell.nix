@@ -1,21 +1,18 @@
-{ perSystem, ... }:
+{ perSystem, inputs, ... }:
 perSystem.devshell.mkShell (
   { extraModulesPath, pkgs, ... }:
   {
     imports = [
       "${extraModulesPath}/locale.nix"
-    ];
+    ]
+    ++ (with inputs.devshell-modules.devshellModules; [
+      minimal
+      autocomplete
+      state
+      gcRoot
+    ]);
 
-    env = [
-      {
-        name = "DEVSHELL_NO_MOTD";
-        value = 1;
-      }
-      {
-        name = "NIXPKGS_PATH";
-        unset = true;
-      }
-    ];
+    gcRoot.roots.flake.inputs = inputs;
 
     devshell.packages = with pkgs; [ 
       python3
